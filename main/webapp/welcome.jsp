@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>Xin chào, ${user.username}!</h2>
+<h2>Xin chào, ${user.email}!</h2>
 <form action="auth" method="post">
-	<input hidden value="logout" name="action">
+	<input type="hidden" value="logout" name="action">
 	<button>Đăng xuất</button>
 </form>
 </body>

@@ -19,7 +19,9 @@ public class AuthController extends HttpServlet {
 	            handleLogin(request, response);
 	        } else if ("register".equals(action)) {
 	            handleRegister(request, response);
-	        } else {
+	        } else if("logout".equals(action)) {
+	            handleLogout(request, response);
+	        }else {
 	            response.sendRedirect("login.jsp");
 	        }
 	    }
@@ -71,7 +73,7 @@ public class AuthController extends HttpServlet {
 	    	if (cookies != null) {
 	    	    for (Cookie c : cookies) {
 	    	        c.setMaxAge(0);
-	    	        c.setPath(c.getPath() == null ? "/" : c.getPath()); 
+	    	        c.setPath("/baitapweb"); 
 	    	        response.addCookie(c);
 	    	    }
 	    	}
