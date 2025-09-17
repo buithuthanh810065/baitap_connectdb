@@ -40,7 +40,7 @@ public class DAOUser implements UserDao {
 	@Override
 	public boolean register(String email, String password) {
 	    if (existsEmail(email)) {
-	        return false; // email đã tồn tại => không cho insert
+	        return false; 
 	    }
 
 	    String sql = "INSERT INTO users(email, password) VALUES(?, ?)";
@@ -61,7 +61,7 @@ public class DAOUser implements UserDao {
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
 	        ps.setString(1, email);
 	        ResultSet rs = ps.executeQuery();
-	        return rs.next(); // nếu có dữ liệu => email đã tồn tại
+	        return rs.next(); 
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

@@ -5,7 +5,6 @@ public class User {
     private String email;
     private String password;
 
-    // getters & setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

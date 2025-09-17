@@ -13,7 +13,7 @@ public class AuthController extends HttpServlet {
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
 	        
-	        String action = request.getParameter("action"); // "login" hoặc "register"
+	        String action = request.getParameter("action"); 
 	        
 	        if ("login".equals(action)) {
 	            handleLogin(request, response);

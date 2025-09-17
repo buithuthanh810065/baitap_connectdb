@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 
 public class DBConnect {
     private static final String URL = "jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "root";   // user mặc định của WAMP
-    private static final String PASSWORD = "";   // thường để trống, nếu bạn có set thì điền vào
+    private static final String USER = "root";   
+    private static final String PASSWORD = "";   
 
     public static Connection getConnection() {
         Connection conn = null;
