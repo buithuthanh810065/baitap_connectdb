@@ -26,14 +26,14 @@ public class AuthController extends HttpServlet {
 	
 	    private void handleLogin(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        String username = request.getParameter("username");
+	        String email = request.getParameter("email");
 	        String password = request.getParameter("password");
 	
 	        DAOUser dao = new DAOUser();
-	        User user = dao.login(username, password);
+	        User user = dao.login(email, password);
 	       
 	        if (user != null) {
-	        	Cookie ck = new Cookie("username", user.getUsername());
+	        	Cookie ck = new Cookie("email", user.getEmail());
 	            ck.setMaxAge(60*60*24);
 	            response.addCookie(ck);
 	            request.setAttribute("user", user);
@@ -48,17 +48,18 @@ public class AuthController extends HttpServlet {
 	
 	    private void handleRegister(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        String username = request.getParameter("username");
+	        String email = request.getParameter("email");
 	        String password = request.getParameter("password");
 	        DAOUser dao = new DAOUser();
-	        boolean success = dao.register(username, password);
-	
+
+	        boolean success = dao.register(email, password);
+
 	        if (success) {
 	            request.setAttribute("msg", "Đăng ký thành công! Mời bạn đăng nhập.");
 	            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 	            rd.forward(request, response);
 	        } else {
-	            request.setAttribute("error", "Đăng ký thất bại. Tài khoản có thể đã tồn tại.");
+	            request.setAttribute("error", "Đăng ký thất bại. Email đã tồn tại hoặc lỗi khác.");
 	            RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
 	            rd.forward(request, response);
 	        }

@@ -9,7 +9,7 @@
 <body>
 <form action="auth" method="post">
     <input type="hidden" name="action" value="login"/>
-    <input type="text" name="username" placeholder="Tên đăng nhập"><br>
+    <input type="email" name="email" placeholder="Nhập email"><br>
     <input type="password" name="password" placeholder="Mật khẩu"><br>
     <button type="submit">Đăng nhập</button>
     <p style="color:red">${error}</p>

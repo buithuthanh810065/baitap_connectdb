@@ -15,20 +15,20 @@ public class DAOUser implements UserDao {
 	public PreparedStatement ps = null;
 	public ResultSet rs = null;
 	@Override
-	public User login(String username, String password) {
+	public User login(String email, String password) {
 		User user = null;
-        String sql = "SELECT * FROM users WHERE username=? AND password=?";
+        String sql = "SELECT * FROM users WHERE email=? AND password=?";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, username);
+            stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 user = new User();
                 user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
             }
         } catch (Exception e) {
@@ -38,21 +38,34 @@ public class DAOUser implements UserDao {
 		
 	}
 	@Override
-	public boolean register(String username, String password) {
-		String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	public boolean register(String email, String password) {
+	    if (existsEmail(email)) {
+	        return false; // email đã tồn tại => không cho insert
+	    }
 
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-
-            int rows = stmt.executeUpdate();
-            return rows > 0; // true nếu thêm thành công
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+	    String sql = "INSERT INTO users(email, password) VALUES(?, ?)";
+	    try (Connection conn = DBConnect.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, email);
+	        ps.setString(2, password);
+	        return ps.executeUpdate() > 0;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
 	}
-
+	@Override
+	public boolean existsEmail(String email) {
+	    String sql = "SELECT 1 FROM users WHERE email = ?";
+	    try (Connection conn = DBConnect.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, email);
+	        ResultSet rs = ps.executeQuery();
+	        return rs.next(); // nếu có dữ liệu => email đã tồn tại
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 
 }
